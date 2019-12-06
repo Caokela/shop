@@ -486,7 +486,6 @@
       }
     }
 
-<<<<<<< HEAD
     .line {
       width: 100%;
       height: 240rpx;
@@ -505,13 +504,6 @@
 
       .footer_tit {
         line-height: 48rpx;
-=======
-      .c_des {
-        width: 670rpx;
-        text-align: justify;
-        line-height: 40rpx;
-        font-size: 24rpx;
->>>>>>> fix:代码同步
         color: #999;
         font-size: 28rpx;
         position: absolute;
@@ -930,7 +922,6 @@
       </view>
     </view>
 
-<<<<<<< HEAD
     <view class="detail" wx:if="{{checked == 1}}">
       <image class="detail_bg" mode="widthFix" src="https://caokela.oss-cn-beijing.aliyuncs.com/WechatIMG5.jpeg"></image>
       <image class="detail_bg" mode="widthFix" src="https://caokela.oss-cn-beijing.aliyuncs.com/WechatIMG6.png"></image>
@@ -953,17 +944,10 @@
         <view class="common_cent_list">
           <view class="cent_list">
             口感极佳（118）
-=======
-        <view class="clist" wx:for="{{pileArr}}" wx:key="id" @tap="toSitedetail('{{item.keyId}}','{{item.dc}}','{{item.ac}}','{{item.distance}}','{{item.isMe}}','{{item.price}}')">
-          <view class="c_name">
-            <view class="c_name_left">{{item.stationName}}</view>
-            <view class="c_name_right">{{item.distance}}以内</view>
->>>>>>> fix:代码同步
           </view>
           <view class="cent_list">
             味道一流（118）
           </view>
-<<<<<<< HEAD
           <view class="cent_list">
             新鲜十足（118）
           </view>
@@ -995,17 +979,6 @@
             </view>
             <view class="res">
               好评
-=======
-          <view class="c_des" wx:if="{{item.remark != ''}}">{{item.remark}}</view>
-          <view class="c_num">
-            <view class="c_num_left">快充/慢充：<text class="c_num_text">{{item.dc}}</text>/<text class="c_num_text">{{item.ac}}</text></view>
-            <view class="c_num_right" wx:if="{{item.price != '暂无'}}">
-              <text class="c_num_text">¥</text>
-              <text class="c_num_mon">{{item.price}}</text>
-            </view>
-            <view class="c_num_right" wx:if="{{item.price == '暂无'}}">
-              <text class="c_num_mon" style="font-size:28rpx;">暂无</text>
->>>>>>> fix:代码同步
             </view>
           </view>
           <view class="list_cent">
@@ -1130,7 +1103,6 @@
 
     }
 
-<<<<<<< HEAD
     methods = {
 
       bindRegionChange: function(e) {
@@ -1171,39 +1143,6 @@
 
         }, 200) //先执行下滑动画，再隐藏模块
 
-=======
-    methods = {
-      toSitedetail(keyId,dc,ac,distance,isMe,price){
-
-        if(price == '暂无'){
-          wx.showModal({
-            title: '系统提示',
-            showCancel: false,
-            content: '获取不到该站点详细信息，请稍后再试！',
-            confirmColor: '#00CC99',
-            confirmText: '确认',
-            success(res) {
-              if (res.confirm) {
-
-              }
-            }
-          })
-        }else{
-          let pileInfo = {
-            keyId:keyId,
-            dc:dc,
-            ac:ac,
-            distance:distance,
-            isMe:isMe
-          }
-          wepy.setStorageSync('pileInfo', pileInfo)
-          wx.navigateTo({
-            url: '/pages/detail/sitedetail'
-          })
-        }
-
-
->>>>>>> fix:代码同步
       },
       toMine() {
         wepy.navigateTo({
@@ -1261,24 +1200,10 @@
 
 
 
-<<<<<<< HEAD
       await self.getGoods()
 
 
 
-=======
-    	const self = this
-
-      await self.getNow()
-    	if(self.current <= self.total) {
-    		await self.getPile()
-
-    	} else {
-
-    		self.isShowtips = true
-
-    	}
->>>>>>> fix:代码同步
 
       self.$apply()
 
@@ -1287,10 +1212,6 @@
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> fix:代码同步
 
     // 获取商品信息
     async getGoods(){
@@ -1306,191 +1227,9 @@
       		data: data
       	})
 
-<<<<<<< HEAD
 
 
       	if(dataInfo.data.errno == 0) {
-=======
-          self.total = Math.ceil(dataInfo.data.data.total / 10)
-          self.totalnum = dataInfo.data.exData
-          if(dataInfo.data.data.list.length > 0){
-            dataInfo.data.data.list.forEach((item,index)=>{
-              // 距离
-              let dis = 0
-
-              if(item.distance < 1000){
-                dis = Math.ceil(item.distance) + '米'
-              }else{
-                dis = Math.ceil(item.distance / 100) /10 + '公里'
-              }
-
-              let price = 0
-              let electricityFee = 0
-              let serviceFee = 0
-              let priceArr = []
-              let nowprice = {}
-              let isme = 0
-
-              if (item.operatorID == '313744932') {
-                isme = 1
-              } else if (item.operatorID == '726811355') {
-                isme = 1
-              } else{
-                isme = 0
-              }
-
-
-              if(isme == 1){
-                if(!item.electricityFee){
-                  price = '暂无'
-                  priceArr = []
-                  nowprice = {}
-                }else if(item.electricityFee.search(';') != -1){
-                  let arr = []
-                  let newarr = []
-                  arr = item.electricityFee.split(';')
-                  newarr = item.serviceFee.split(';')
-
-                  arr.pop()
-                  newarr.pop()
-
-
-                  arr.forEach((item,index)=>{
-                    let time = item.split(',')[0].split('时间段:')[1]
-                    priceArr.push({
-                      startTime : time.split('-')[0],
-                      endTime : time.split('-')[1],
-                      salesPrice: parseInt(item.split(',')[1].split('电价:')[1]*100),
-                      serviceCharge: parseInt(newarr[index].split(',')[1].split('服务费:')[1]*100),
-                      start:parseInt(time.split('-')[0].split(':').join('')),
-                      end:parseInt(time.split('-')[1].split(':').join(''))
-                    })
-                  })
-
-                  priceArr.forEach((item)=>{
-                    if(item.start < self.now && item.end > self.now){
-                      nowprice.startTime = item.startTime,
-                      nowprice.endTime = item.endTime,
-                      nowprice.salesPrice = item.salesPrice,
-                      nowprice.serviceCharge = item.serviceCharge,
-                      nowprice.start = parseInt(item.startTime.split(':').join('')),
-                      nowprice.end = parseInt(item.endTime.split(':').join(''))
-                    }
-                  })
-                  price = (Number(nowprice.salesPrice) + Number(nowprice.serviceCharge))/100
-
-
-
-                }else{
-                  if(item.electricityFee.search('电价:') != -1){
-                    electricityFee = item.electricityFee.split('电价:')[1]
-                  }else{
-                    electricityFee = item.electricityFee
-                  }
-                  if(item.serviceFee.search('服务费:') != -1){
-                    serviceFee = item.serviceFee.split('服务费:')[1]
-                  }else{
-                    serviceFee = item.serviceFee
-                  }
-                  let busineHours = item.busineHours ? item.busineHours : '00:00-24:00'
-
-
-                  priceArr.push({
-                    startTime : busineHours.split('-')[0].replace(/\s+/g,"").slice(0,5),
-                    endTime : busineHours.split('-')[1].replace(/\s+/g,"").slice(0,5),
-                    salesPrice: parseInt(electricityFee*100),
-                    serviceCharge: parseInt(serviceFee*100),
-                    start:parseInt(busineHours.split('-')[0].replace(/\s+/g,"").slice(0,5).split(':').join('')),
-                    end:parseInt(busineHours.split('-')[1].replace(/\s+/g,"").slice(0,5).split(':').join(''))
-                  })
-
-                  priceArr.forEach((item)=>{
-                    if(item.start < self.now && item.end > self.now){
-                      nowprice.startTime = item.startTime,
-                      nowprice.endTime = item.endTime,
-                      nowprice.salesPrice = item.salesPrice,
-                      nowprice.serviceCharge = item.serviceCharge,
-                      nowprice.start = parseInt(item.startTime.split(':').join('')),
-                      nowprice.end = parseInt(item.endTime.split(':').join(''))
-                    }
-                  })
-
-
-                  price = nowprice.salesPrice ? (Number(nowprice.salesPrice) + Number(nowprice.serviceCharge))/100 : '费'
-
-
-                }
-
-
-
-              }else{
-
-                priceArr.push({
-                  startTime : item.bizCost.startTime,
-                  endTime : item.bizCost.endTime,
-                  salesPrice: parseInt(item.bizCost.salesPrice*100),
-                  serviceCharge: parseInt(item.bizCost.serviceCharge*100),
-                  start:parseInt(item.bizCost.startTime.split(':').join('')),
-                  end:parseInt(item.bizCost.endTime.split(':').join(''))
-                })
-
-
-                if(item.bizCost.costTimes.length>0){
-                  item.bizCost.costTimes.forEach((item,index)=>{
-
-                    priceArr.push({
-                      startTime : item.startTime,
-                      endTime : item.endTime,
-                      salesPrice: parseInt(item.salesPrice*100),
-                      serviceCharge: parseInt(item.serviceCharge*100),
-                      start:parseInt(item.startTime.split(':').join('')),
-                      end:parseInt(item.endTime.split(':').join(''))
-                    })
-
-                  })
-                }
-
-                priceArr.forEach((item)=>{
-                  if(item.start < self.now && item.end > self.now){
-                    nowprice.startTime = item.startTime,
-                    nowprice.endTime = item.endTime,
-                    nowprice.salesPrice = item.salesPrice,
-                    nowprice.serviceCharge = item.serviceCharge,
-                    nowprice.start = parseInt(item.startTime.split(':').join('')),
-                    nowprice.end = parseInt(item.endTime.split(':').join(''))
-                  }
-                })
-                price = (Number(nowprice.salesPrice) + Number(nowprice.serviceCharge))/100
-
-
-              }
-
-              self.pileArr.push({
-                id:index,
-                stationID:item.stationID,
-                stationName:item.stationName,
-                busineHours:item.busineHours,
-                isMe:item.isMe,
-                ac:item.ac ? item.ac : 0,
-                dc:item.dc ? item.dc : 0,
-                keyId:item.keyId,
-                distance:dis,
-                price:price,
-                priceArr:priceArr,
-                remark: item.remark && item.remark.length > 0 ? item.remark : ''
-
-
-              })
-
-            })
-          }
-        }
-
-
-        self.current++
-        self.$apply()
-
->>>>>>> fix:代码同步
 
           self.goodsinfo.list_pic_url = dataInfo.data.data.newGoodsList[0].list_pic_url
           self.goodsinfo.promotion_desc = dataInfo.data.data.newGoodsList[0].promotion_desc
@@ -1510,51 +1249,16 @@
             self.showmoney = self.goodsinfo.firstPrice * self.num
           }else{
             self.money = self.goodsinfo.retail_price
-            self.showmoney = self.goodsinfo.firstPrice * self.num
+            self.showmoney = self.goodsinfo.firstPrice* self.num
           }
 
-<<<<<<< HEAD
 
 
 
-=======
-    // 获取位置信息
-    getLocation() {
-    	const self = this
-    	wx.getLocation({
-    		type: 'gcj02',
-    		success(res) {
-    			const latitude = res.latitude
-    			const longitude = res.longitude
-    			const speed = res.speed
-    			const accuracy = res.accuracy
-    			self.latitude = res.latitude.toFixed(6)
-    			self.longitude = res.longitude.toFixed(6)
-
-
-
-          // self.latitude = 34.19486999511719
-          // self.longitude = 108.88025665283203
->>>>>>> fix:代码同步
 
           self.$apply()
 
-<<<<<<< HEAD
       	}
-=======
-          self.latitude = 34.191433
-          self.longitude = 108.880411
-
-          // self.latitude = 34.193899
-          // self.longitude = 108.880733
-
-          // self.latitude = 22.938753
-          // self.longitude = 113.381638
-
-
-
-
->>>>>>> fix:代码同步
 
       } catch(e) {
       	console.log(e)
